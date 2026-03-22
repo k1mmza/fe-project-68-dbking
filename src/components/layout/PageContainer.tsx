@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import clsx from "clsx"
 
 interface PageContainerProps {
   children: React.ReactNode
@@ -14,10 +13,13 @@ export default function PageContainer({
 }: PageContainerProps) {
   return (
     <div
-      className={clsx(
-        "mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8",
-        className
-      )}
+      style={{
+        maxWidth: "1200px",
+        margin: "0 auto",
+        padding: "2rem 1.5rem",
+        width: "100%",
+      }}
+      className={className}
     >
       {children}
     </div>

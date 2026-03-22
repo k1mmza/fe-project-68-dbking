@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-background: #f5f3ef;
+  --color-foreground: #1a1a2e;
+}
+
 :root {
   --background: #f5f3ef;
   --foreground: #1a1a2e;
@@ -7,13 +12,14 @@
 }
 
 html {
-  font-size: 17px;
+  font-size: 15px;
+  background: #f5f3ef;
 }
 
 html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #f5f3ef;
+  color: #1a1a2e;
   font-family: var(--font-dm-sans), 'Arial', sans-serif;
   min-height: 100%;
   -webkit-font-smoothing: antialiased;
@@ -22,25 +28,12 @@ body {
 
 body {
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.7;
 }
-
-p, li, span, label, input, select, textarea {
-  font-size: 1rem;
-  line-height: 1.75;
-}
-
-.text-xs   { font-size: 0.82rem  !important; }
-.text-sm   { font-size: 0.94rem  !important; }
-.text-base { font-size: 1rem     !important; }
-.text-lg   { font-size: 1.18rem  !important; }
-.text-xl   { font-size: 1.29rem  !important; }
-.text-2xl  { font-size: 1.65rem  !important; }
-.text-3xl  { font-size: 2rem     !important; }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-cormorant), 'Georgia', serif;
   font-weight: 400;
   letter-spacing: 0.02em;
-  color: var(--foreground);
+  color: #1a1a2e;
 }

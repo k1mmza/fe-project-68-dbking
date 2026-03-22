@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import clsx from "clsx"
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "outline"
 type ButtonSize = "sm" | "md" | "lg"
@@ -23,32 +22,31 @@ export default function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  // 🎨 style ตาม variant
   const variantStyles: Record<ButtonVariant, string> = {
     primary: "bg-blue-600 text-white hover:bg-blue-700",
     secondary: "bg-gray-600 text-white hover:bg-gray-700",
     danger: "bg-red-600 text-white hover:bg-red-700",
-    outline:
-      "border border-gray-300 text-gray-700 hover:bg-gray-100 bg-white",
+    outline: "border border-gray-300 text-gray-700 hover:bg-gray-100 bg-white",
   }
 
-  // 📏 style ตาม size
   const sizeStyles: Record<ButtonSize, string> = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-4 py-2 text-base",
     lg: "px-6 py-3 text-lg",
   }
 
+  const classes = [
+    "rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2",
+    "disabled:opacity-50 disabled:cursor-not-allowed",
+    variantStyles[variant],
+    sizeStyles[size],
+    fullWidth ? "w-full" : "",
+    className ?? "",
+  ].filter(Boolean).join(" ")
+
   return (
     <button
-      className={clsx(
-        "rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2",
-        "disabled:opacity-50 disabled:cursor-not-allowed",
-        variantStyles[variant],
-        sizeStyles[size],
-        fullWidth && "w-full",
-        className
-      )}
+      className={classes}
       disabled={disabled || loading}
       {...props}
     >

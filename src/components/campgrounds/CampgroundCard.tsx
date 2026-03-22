@@ -30,7 +30,7 @@ export default function CampgroundCard({
 
   return (
     <Card hoverable className="overflow-hidden">
-      <div className="relative h-52 w-full bg-gray-100">
+      <div style={{ position: "relative", height: "200px", width: "100%", background: "#f3f4f6" }}>
         <Image
           src={picture || "/img/campground-placeholder.jpg"}
           alt={name}

@@ -124,8 +124,8 @@ export default function CampgroundsPage() {
               className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="default">Default</option>
-              <option value="rating-high">Rating: High → Low</option>
-              <option value="rating-low">Rating: Low → High</option>
+              <option value="rating-high">⭐ Rating: High → Low</option>
+              <option value="rating-low">⭐ Rating: Low → High</option>
               <option value="name-az">Name: A → Z</option>
               <option value="name-za">Name: Z → A</option>
             </select>
@@ -162,7 +162,7 @@ export default function CampgroundsPage() {
         ) : sorted.length === 0 ? (
           <EmptyState title="No Campgrounds" message="There are no campgrounds available right now." />
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "1.5rem" }}>
             {sorted.map((camp) => (
               <div key={camp._id} className="flex flex-col">
                 <CampgroundCard
