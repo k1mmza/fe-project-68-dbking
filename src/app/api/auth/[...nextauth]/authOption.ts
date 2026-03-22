@@ -1,6 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://cedt-be-for-fe-proj.vercel.app/api/v1";
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -12,22 +14,34 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        const res = await fetch(`${API_URL}/auth/login`, {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" },
         });
 
-        const user = await res.json();
+        const json = await res.json();
 
-        if (res.ok && user) {
-          return {
-            ...user.data,
-            token: user.token,
-            _id: user.data._id,
-          };
-        }
-        return null;
+        if (!res.ok || !json?.token) return null;
+
+        // Backend only returns { success, token } — no user data
+        // So we call /auth/me with the token to get user info
+        const meRes = await fetch(`${API_URL}/auth/me`, {
+          headers: { Authorization: `Bearer ${json.token}` },
+        });
+
+        const meJson = await meRes.json();
+
+        if (!meRes.ok || !meJson?.data) return null;
+
+        return {
+          id: meJson.data._id,
+          name: meJson.data.name,
+          email: meJson.data.email,
+          role: meJson.data.role,
+          token: json.token,
+          _id: meJson.data._id,
+        };
       },
     }),
   ],
