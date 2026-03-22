@@ -11,7 +11,7 @@ import ErrorState from "@/components/common/ErrorState"
 import { useCampgrounds } from "@/libs/hooks/useCampgrounds"
 import { useAuth } from "@/libs/hooks/useAuth"
 
-export default function HomePage() {
+export default function CampgroundsPage() {
   const router = useRouter()
   const { user, logout, isAdmin } = useAuth()
   const { campgrounds, getCampgrounds, loading, error } = useCampgrounds()
@@ -33,21 +33,11 @@ export default function HomePage() {
       <Navbar user={user} isAdmin={isAdmin} onLogout={logout} />
 
       <PageContainer>
-        {/* Hero Section */}
-        <div className="mb-8 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 p-8 text-white">
-          <h1 className="text-3xl font-bold">
-            Find Your Perfect Campground
-          </h1>
-          <p className="mt-2 text-sm text-blue-100">
-            Explore beautiful locations and book your next outdoor adventure.
-          </p>
-        </div>
-
-        {/* Campgrounds Section */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Featured Campgrounds
-          </h2>
+          <h1 className="text-3xl font-bold text-gray-900">Campgrounds</h1>
+          <p className="mt-2 text-sm text-gray-500">
+            Explore available campgrounds and book your next stay.
+          </p>
         </div>
 
         {loading ? (
@@ -60,7 +50,7 @@ export default function HomePage() {
         ) : campgrounds.length === 0 ? (
           <EmptyState
             title="No Campgrounds"
-            message="No campgrounds available right now."
+            message="There are no campgrounds available right now."
           />
         ) : (
           <CampgroundList

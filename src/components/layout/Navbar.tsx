@@ -5,7 +5,11 @@ import Button from "@/components/ui/Button"
 import { User } from "@/libs/types"
 
 interface NavbarProps {
-  user?: User | null
+  user?: {
+    name?: string | null
+    email?: string | null
+    role?: "user" | "admin"
+  } | null
   isAdmin?: boolean
   onLogout?: () => void
 }
