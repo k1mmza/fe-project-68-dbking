@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation"
 import Navbar from "@/components/layout/Navbar"
 import PageContainer from "@/components/layout/PageContainer"
 import CampgroundList from "@/components/campgrounds/CampgroundList"
-import LoadingState from "@/components/common/LoadingState"
-import EmptyState from "@/components/common/EmptyState"
 import ErrorState from "@/components/common/ErrorState"
 import { useCampgrounds } from "@/libs/hooks/useCampgrounds"
 import { useAuth } from "@/libs/hooks/useAuth"
@@ -20,13 +18,8 @@ export default function CampgroundsPage() {
     getCampgrounds()
   }, [])
 
-  const handleView = (id: string) => {
-    router.push(`/campgrounds/${id}`)
-  }
-
-  const handleBook = (id: string) => {
-    router.push(`/campgrounds/${id}`)
-  }
+  const handleView = (id: string) => router.push(`/campgrounds/${id}`)
+  const handleBook = (id: string) => router.push(`/campgrounds/${id}`)
 
   return (
     <>
@@ -40,21 +33,12 @@ export default function CampgroundsPage() {
           </p>
         </div>
 
-        {loading ? (
-          <LoadingState message="Loading campgrounds..." />
-        ) : error ? (
-          <ErrorState
-            message={error}
-            onRetry={getCampgrounds}
-          />
-        ) : campgrounds.length === 0 ? (
-          <EmptyState
-            title="No Campgrounds"
-            message="There are no campgrounds available right now."
-          />
+        {error ? (
+          <ErrorState message={error} onRetry={getCampgrounds} />
         ) : (
           <CampgroundList
             campgrounds={campgrounds}
+            loading={loading}
             onView={handleView}
             onBook={handleBook}
           />
