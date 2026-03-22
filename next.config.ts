@@ -4,14 +4,19 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'cedt-be-for-fe-proj.vercel.app',
-        port: '',
-        pathname: '/**', // This allows all image paths from this host
+        protocol: "https",
+        hostname: "cedt-be-for-fe-proj.vercel.app",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },
-  /* You can add other config options like rewrites or redirects here if needed */
 };
 
 export default nextConfig;
