@@ -36,9 +36,9 @@ export default function CampgroundDetailPage() {
     setModalOpen(true)
   }
 
-  const handleBookingSubmit = async (campId: string, date: string) => {
+  const handleBookingSubmit = async (campId: string, checkInDate: string, checkOutDate: string) => {
     try {
-      await createBooking(campId, date)
+      await createBooking(campId, checkInDate, checkOutDate)
       setBookingSuccess(true)
     } catch {
       // error is handled by useBookings

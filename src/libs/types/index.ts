@@ -40,12 +40,15 @@ export interface Campground {
 
 export interface Booking {
   _id: string;
-  bookingDate: string;
-  user: string; // User ID
-  campground: Campground; // The API usually populates this object
+  checkInDate: string;
+  checkOutDate: string;
+  nightsCount?: number;
+  user: string;
+  campground: Campground;
   createdAt: string;
 }
 
 export interface BookingInput {
-  bookingDate: string;
+  checkInDate: string;
+  checkOutDate: string;
 }

@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button"
 
 interface BookingFormProps {
   campId: string
-  onSubmit: (campId: string, date: string) => Promise<void> | void
+  onSubmit: (campId: string, checkInDate: string, checkOutDate: string) => Promise<void> | void
   loading?: boolean
   error?: string
 }
@@ -17,28 +17,66 @@ export default function BookingForm({
   loading = false,
   error,
 }: BookingFormProps) {
-  const [bookingDate, setBookingDate] = useState("")
+  const today = new Date().toISOString().split("T")[0]
+  const [checkInDate, setCheckInDate] = useState("")
+  const [checkOutDate, setCheckOutDate] = useState("")
+  const [localError, setLocalError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLocalError("")
 
-    if (!bookingDate) return
+    if (!checkInDate || !checkOutDate) {
+      setLocalError("Please select both check-in and check-out dates.")
+      return
+    }
+    if (checkOutDate <= checkInDate) {
+      setLocalError("Check-out date must be after check-in date.")
+      return
+    }
 
-    await onSubmit(campId, bookingDate)
+    // Validate max 3 nights
+    const msPerDay = 24 * 60 * 60 * 1000
+    const nights = Math.ceil((new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) / msPerDay)
+    if (nights > 3) {
+      setLocalError("Maximum stay is 3 nights.")
+      return
+    }
+
+    await onSubmit(campId, checkInDate, checkOutDate)
   }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <Input
-        label="Booking Date"
+        label="Check-in Date"
         type="date"
-        value={bookingDate}
-        onChange={(e) => setBookingDate(e.target.value)}
+        min={today}
+        value={checkInDate}
+        onChange={(e) => {
+          setCheckInDate(e.target.value)
+          if (checkOutDate && e.target.value >= checkOutDate) setCheckOutDate("")
+        }}
+        required
+      />
+      <Input
+        label="Check-out Date"
+        type="date"
+        min={checkInDate || today}
+        value={checkOutDate}
+        onChange={(e) => setCheckOutDate(e.target.value)}
         required
       />
 
-      {error && (
-        <p className="text-sm text-red-500">{error}</p>
+      {/* Nights summary */}
+      {checkInDate && checkOutDate && checkOutDate > checkInDate && (
+        <p className="text-sm text-gray-500">
+          🌙 {Math.ceil((new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) / 86400000)} night(s)
+        </p>
+      )}
+
+      {(localError || error) && (
+        <p className="text-sm text-red-500">{localError || error}</p>
       )}
 
       <Button type="submit" loading={loading} fullWidth>

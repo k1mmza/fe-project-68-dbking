@@ -7,11 +7,9 @@ export const useBookings = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Step 5 & 10: View Bookings
   const getBookings = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const data = await apiClient('/bookings');
       setBookings(data.data);
@@ -23,21 +21,42 @@ export const useBookings = () => {
     }
   };
 
-  // Step 4: Create Booking
-  const createBooking = async (campId: string, date: string) => {
+  // Backend requires checkInDate + checkOutDate (not bookingDate)
+  const createBooking = async (campId: string, checkInDate: string, checkOutDate: string) => {
     setError(null);
-
     try {
       return await apiClient(`/campgrounds/${campId}/bookings`, {
         method: "POST",
-        body: JSON.stringify({ bookingDate: date }),
+        body: JSON.stringify({ checkInDate, checkOutDate }),
       });
-    } catch (err) {
-      console.error(err);
-      setError("Failed to create booking");
+    } catch (err: any) {
+      setError(err.message || "Failed to create booking");
       throw err;
     }
   };
 
-  return { bookings, getBookings, createBooking, loading, error };
+  const updateBooking = async (bookingId: string, checkInDate: string, checkOutDate: string) => {
+    setError(null);
+    try {
+      return await apiClient(`/bookings/${bookingId}`, {
+        method: "PUT",
+        body: JSON.stringify({ checkInDate, checkOutDate }),
+      });
+    } catch (err: any) {
+      setError(err.message || "Failed to update booking");
+      throw err;
+    }
+  };
+
+  const deleteBooking = async (bookingId: string) => {
+    setError(null);
+    try {
+      return await apiClient(`/bookings/${bookingId}`, { method: "DELETE" });
+    } catch (err: any) {
+      setError(err.message || "Failed to delete booking");
+      throw err;
+    }
+  };
+
+  return { bookings, getBookings, createBooking, updateBooking, deleteBooking, loading, error };
 };
