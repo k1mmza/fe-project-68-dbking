@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect } from "react"
-import clsx from "clsx"
 
 interface ModalProps {
   open: boolean
@@ -50,17 +49,17 @@ export default function Modal({
     if (closeOnOverlay) onClose()
   }
 
+  // --- THE CHANGE IS HERE ---
+  // Combine strings manually using template literals
+  const modalClasses = `w-full rounded-2xl bg-white shadow-xl max-h-[90vh] overflow-y-auto ${sizeStyles[size]}`;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
       onClick={handleOverlayClick}
     >
       <div
-        className={clsx(
-          "w-full rounded-2xl bg-white shadow-xl",
-          "max-h-[90vh] overflow-y-auto",
-          sizeStyles[size]
-        )}
+        className={modalClasses}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b px-5 py-4">
