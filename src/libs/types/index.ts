@@ -43,7 +43,9 @@ export interface Booking {
   checkInDate: string;
   checkOutDate: string;
   nightsCount?: number;
-  user: string;
+  user?: string | null;
+  guestName?: string | null;
+  guestTel?: string | null;
   campground: Campground;
   createdAt: string;
 }
@@ -51,4 +53,6 @@ export interface Booking {
 export interface BookingInput {
   checkInDate: string;
   checkOutDate: string;
+  guestName?: string;
+  guestTel?: string;
 }
